@@ -2,6 +2,7 @@
 # classification model Wrap GradientBoostingRegressor to run DecisionTreeSVRRegressor as it's estimators
 # the DecisionTreeSVRRegressor are not generated in train phase only on test!
 # my update for scikit learn gradient boosting package will enable to set a generic model
+import os
 
 from sklearn.svm import SVR
 from sklearn import ensemble
@@ -20,7 +21,6 @@ class GradientBoostingRegressorSVRSimpleWrapper(object):
         self.gbr = ensemble.GradientBoostingRegressor(**params_gbr)
 
     def is_model_in_disk(self):
-        return False
         gbr_file, svrs_file = self.models_name()
         return os.path.isfile(gbr_file) and os.path.isfile(svrs_file)
 
@@ -56,11 +56,14 @@ class GradientBoostingRegressorSVRSimpleWrapper(object):
         svrs_file = 'models/' + self.dataset + '_' + svrs + '.pkl'
         return gbr_file, svrs_file
 
-    def fit(self, X, y):
-        if self.is_model_in_disk():
+    def fit(self, X, y,force_fit = True, gbr = None):
+        if self.is_model_in_disk() and not force_fit:
             self.load()
         else:
-            self.gbr.fit(X, y)
+            if gbr is None:
+                self.gbr.fit(X, y)
+            else:
+                self.gbr = gbr
             leaves_stages = self.gbr.apply(X)
             predict_stages = self.gbr.staged_predict(X)
 
