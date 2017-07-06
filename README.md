@@ -12,8 +12,8 @@ We also implemented a new class of decision tree regressor, DecisionTreeSVRRegre
 ## Experiment 
 We evaluate “max depth” and the “min split” tree parameters on 5 different datasets, with 5 fold cross validation, for each evaluation we calculated the MSE (mean & std), MAE (mean & std), and the training time of the model.
 Regard all other gradient boost and the SVR parameters; we set the following fixed parameters:
-•	**Gradient boost** - 100 estimators with 0.01 learning rate with friedman_mse criterion
-•	**SVR in the leaves** - rbf  kernel with 0.1 epsilon 
+- **Gradient boost** - 100 estimators with 0.01 learning rate with friedman_mse criterion
+- **SVR in the leaves** - rbf  kernel with 0.1 epsilon 
 (These parameters showed in general good enough baseline results compare to other parameters)
 
 ## Results
